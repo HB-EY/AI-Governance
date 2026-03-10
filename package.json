@@ -1,0 +1,19 @@
+{
+  "name": "ai-governance",
+  "version": "0.1.0",
+  "description": "Agent Governance Control Plane",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "migrate:up": "node scripts/migrate.js up",
+    "migrate:down": "node scripts/migrate.js down",
+    "migrate:status": "node scripts/migrate.js status"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "pg": "^8.13.0",
+    "dotenv": "^16.4.5"
+  }
+}
