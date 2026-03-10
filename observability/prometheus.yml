@@ -1,0 +1,21 @@
+# Prometheus config for AI Governance Control Plane (WO-57)
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []  # Set to alertmanager URL if used
+
+rule_files:
+  - alert-rules.yml
+
+scrape_configs:
+  - job_name: 'control-plane-api'
+    static_configs:
+      - targets: ['localhost:3000']  # API metrics endpoint
+    metrics_path: /metrics
+  - job_name: 'worker'
+    static_configs:
+      - targets: ['localhost:3001']  # Worker health/metrics if exposed

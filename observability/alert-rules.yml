@@ -1,0 +1,39 @@
+# Alert rules for AI Governance (WO-57)
+groups:
+  - name: control_plane
+    rules:
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 5m
+        labels: { severity: critical }
+        annotations:
+          summary: "High error rate (> 5%)"
+          runbook_url: "https://example.com/runbooks/high-error-rate"
+
+      - alert: HighLatencyP95
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "P95 latency > 1s"
+
+      - alert: LowCacheHitRate
+        expr: rate(cache_hits_total[5m]) / (rate(cache_hits_total[5m]) + rate(cache_misses_total[5m])) < 0.9
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "Cache hit rate < 90%"
+
+      - alert: ApprovalQueueBacklog
+        expr: approval_pending_count > 50
+        for: 15m
+        labels: { severity: warning }
+        annotations:
+          summary: "Approval queue backlog > 50"
+
+      - alert: ServiceDown
+        expr: up == 0
+        for: 2m
+        labels: { severity: critical }
+        annotations:
+          summary: "Service {{ $labels.job }} is down"

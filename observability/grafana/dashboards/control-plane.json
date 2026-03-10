@@ -1,0 +1,82 @@
+{
+  "title": "AI Governance Control Plane",
+  "uid": "ai-governance-cp",
+  "version": 1,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Request rate",
+      "type": "graph",
+      "targets": [
+        { "expr": "rate(http_requests_total[5m])", "legendFormat": "{{ method }} {{ path }}" }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
+    },
+    {
+      "id": 2,
+      "title": "Error rate",
+      "type": "graph",
+      "targets": [
+        { "expr": "rate(http_requests_total{status=~\"5..\"}[5m]) / rate(http_requests_total[5m])", "legendFormat": "5xx" }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
+    },
+    {
+      "id": 3,
+      "title": "Latency P50 / P95 / P99",
+      "type": "graph",
+      "targets": [
+        { "expr": "histogram_quantile(0.5, rate(http_request_duration_seconds_bucket[5m]))", "legendFormat": "P50" },
+        { "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))", "legendFormat": "P95" },
+        { "expr": "histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))", "legendFormat": "P99" }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 }
+    },
+    {
+      "id": 4,
+      "title": "Agents by status",
+      "type": "stat",
+      "targets": [
+        { "expr": "sum(agents_by_status{status=\"active\"}) or vector(0)", "legendFormat": "Active" },
+        { "expr": "sum(agents_by_status{status=\"disabled\"}) or vector(0)", "legendFormat": "Disabled" }
+      ],
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 8 }
+    },
+    {
+      "id": 5,
+      "title": "Policy evaluation time",
+      "type": "graph",
+      "targets": [
+        { "expr": "rate(policy_evaluation_seconds_sum[5m]) / rate(policy_evaluation_seconds_count[5m])", "legendFormat": "avg" }
+      ],
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 16 }
+    },
+    {
+      "id": 6,
+      "title": "Validation check duration",
+      "type": "graph",
+      "targets": [
+        { "expr": "rate(validation_check_duration_seconds_sum[5m]) / rate(validation_check_duration_seconds_count[5m])", "legendFormat": "avg" }
+      ],
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 16 }
+    },
+    {
+      "id": 7,
+      "title": "Approval queue size",
+      "type": "stat",
+      "targets": [{ "expr": "approval_pending_count or vector(0)", "legendFormat": "Pending" }],
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 22 }
+    },
+    {
+      "id": 8,
+      "title": "Cache hit rate",
+      "type": "gauge",
+      "targets": [
+        { "expr": "rate(cache_hits_total[5m]) / (rate(cache_hits_total[5m]) + rate(cache_misses_total[5m]))", "legendFormat": "hit rate" }
+      ],
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 22 }
+    }
+  ],
+  "schemaVersion": 38,
+  "tags": ["ai-governance"]
+}

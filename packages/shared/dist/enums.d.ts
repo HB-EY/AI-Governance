@@ -27,9 +27,9 @@ export type ValidationCheckStatus = 'active' | 'disabled';
 /** Idempotency key status */
 export type IdempotencyKeyStatus = 'pending' | 'success' | 'failed';
 /** Audit log entity type */
-export type AuditEntityType = 'agent' | 'policy' | 'approval' | 'validation_check';
+export type AuditEntityType = 'agent' | 'policy' | 'approval' | 'validation_check' | 'trace';
 /** Audit action */
-export type AuditAction = 'create' | 'update' | 'delete' | 'disable' | 'enable';
+export type AuditAction = 'create' | 'update' | 'delete' | 'disable' | 'enable' | 'export';
 /** API error codes */
 export type ApiErrorCode = 'invalid_request' | 'authentication_required' | 'forbidden' | 'not_found' | 'conflict' | 'rate_limited' | 'internal_error' | 'service_unavailable';
 /** Decision type for policy evaluation (used in gateway) */

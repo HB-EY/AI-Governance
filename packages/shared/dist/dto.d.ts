@@ -12,17 +12,39 @@ export interface RegisterAgentRequest {
     owner_email?: string | null;
     capabilities: CapabilityType[];
 }
-/** Response after successful agent registration (returns agent ID) */
+/** Response after successful agent registration (API key returned once only) */
 export interface RegisterAgentResponse {
     agent_id: UUID;
+    api_key: string;
 }
-/** Request to create/update a policy */
+/** Single rule condition for policy (WO-21: field, operator, value, negate) */
+export interface PolicyRule {
+    field: string;
+    operator: 'equals' | 'contains' | 'matches' | 'in' | 'gt' | 'lt';
+    value: unknown;
+    negate?: boolean;
+}
+/** Request to create a policy (WO-20) */
 export interface CreatePolicyRequest {
     name: string;
     description: string;
+    rules: PolicyRule[];
+    effect: 'allow' | 'deny';
+    priority?: number;
+    requires_validation?: boolean;
+    validation_types?: string[];
+    requires_approval?: boolean;
+    approver_roles?: string[];
 }
 export interface UpdatePolicyRequest {
     description?: string;
+    rules?: PolicyRule[];
+    effect?: 'allow' | 'deny';
+    priority?: number;
+    requires_validation?: boolean;
+    validation_types?: string[];
+    requires_approval?: boolean;
+    approver_roles?: string[];
 }
 /** Request to create/update a validation check */
 export interface CreateValidationCheckRequest {

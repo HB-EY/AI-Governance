@@ -1,0 +1,2 @@
+DROP INDEX IF EXISTS idx_agents_status;
+ALTER TABLE agents DROP COLUMN IF EXISTS status;

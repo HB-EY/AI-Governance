@@ -14,12 +14,14 @@ export interface AuditFields {
     created_by?: string | null;
     updated_by?: string | null;
 }
+export type AgentStatus = 'active' | 'disabled' | 'suspended';
 export interface Agent {
     id: UUID;
     name: string;
     description: string | null;
     owner_id: string;
     owner_email: string | null;
+    status: AgentStatus;
     current_version_id: UUID | null;
     api_key_hash: string;
     created_at: Timestamp;

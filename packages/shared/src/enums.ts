@@ -58,7 +58,8 @@ export type AuditEntityType =
   | 'agent'
   | 'policy'
   | 'approval'
-  | 'validation_check';
+  | 'validation_check'
+  | 'trace';
 
 /** Audit action */
 export type AuditAction =
@@ -66,7 +67,8 @@ export type AuditAction =
   | 'update'
   | 'delete'
   | 'disable'
-  | 'enable';
+  | 'enable'
+  | 'export';
 
 /** API error codes */
 export type ApiErrorCode =

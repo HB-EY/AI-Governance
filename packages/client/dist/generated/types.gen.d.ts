@@ -1,0 +1,37 @@
+export type GetHealthData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/health';
+};
+export type GetHealthResponses = {
+    /**
+     * OK
+     */
+    200: {
+        status?: 'ok';
+        timestamp?: string;
+    };
+};
+export type GetHealthResponse = GetHealthResponses[keyof GetHealthResponses];
+export type GetV1MeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/v1/me';
+};
+export type GetV1MeResponses = {
+    /**
+     * OK
+     */
+    200: {
+        request_id?: string;
+        timestamp?: string;
+        version?: string;
+        data?: {
+            agent_id?: string;
+            auth_type?: 'agent';
+        };
+    };
+};
+export type GetV1MeResponse = GetV1MeResponses[keyof GetV1MeResponses];

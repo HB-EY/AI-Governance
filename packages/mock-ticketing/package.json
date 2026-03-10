@@ -1,0 +1,23 @@
+{
+  "name": "@ai-governance/mock-ticketing",
+  "version": "0.1.0",
+  "description": "Mock ticketing API for demo agent (WO-54)",
+  "type": "module",
+  "main": "./dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "node --watch dist/server.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "typescript": "~5.6.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

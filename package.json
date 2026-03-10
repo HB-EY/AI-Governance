@@ -4,7 +4,26 @@
   "description": "Agent Governance Control Plane",
   "type": "module",
   "private": true,
+  "workspaces": ["packages/*"],
   "scripts": {
+    "build": "npm run build:shared && npm run build:api && npm run build:worker && npm run build:client && npm run build:web && npm run build:mock-ticketing && npm run build:demo-agent",
+    "build:shared": "npm run build -w @ai-governance/shared",
+    "build:api": "npm run build -w @ai-governance/api",
+    "build:worker": "npm run build -w @ai-governance/worker",
+    "build:client": "npm run build -w @ai-governance/client",
+    "build:web": "npm run build -w @ai-governance/web",
+    "build:mock-ticketing": "npm run build -w @ai-governance/mock-ticketing",
+    "build:demo-agent": "npm run build -w @ai-governance/demo-agent",
+    "dev": "npm run build:shared && npm run build:api && npm run build:worker && concurrently \"npm run dev -w @ai-governance/api\" \"npm run dev -w @ai-governance/web\" \"npm run dev -w @ai-governance/worker\"",
+    "dev:api": "npm run build:shared && npm run dev -w @ai-governance/api",
+    "dev:web": "npm run dev -w @ai-governance/web",
+    "dev:worker": "npm run build:shared && npm run dev -w @ai-governance/worker",
+    "lint": "npm run lint:packages && npm run lint -w @ai-governance/web",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "lint:packages": "eslint packages/shared packages/api packages/worker packages/client --ext .ts,.tsx",
+    "test": "jest --config jest.config.cjs --passWithNoTests",
+    "clean": "npm run clean -w @ai-governance/shared && npm run clean -w @ai-governance/api && npm run clean -w @ai-governance/worker && npm run clean -w @ai-governance/client && npm run clean -w @ai-governance/web && npm run clean -w @ai-governance/mock-ticketing && npm run clean -w @ai-governance/demo-agent",
     "migrate:up": "node scripts/migrate.js up",
     "migrate:down": "node scripts/migrate.js down",
     "migrate:status": "node scripts/migrate.js status"
@@ -15,5 +34,16 @@
   "dependencies": {
     "pg": "^8.13.0",
     "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "concurrently": "^9.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.2.0",
+    "ts-jest": "^29.2.0",
+    "typescript": "~5.6.0"
   }
 }
