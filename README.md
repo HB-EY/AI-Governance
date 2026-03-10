@@ -19,11 +19,12 @@ cp .env.example .env
 # Optional: REDIS_URL or REDIS_HOST for cache/rate limiting
 ```
 
-For the **web** app (admin console), point it at the API:
+For the **web** app (admin console), point it at the API (use the port where your API runs):
 
 ```bash
-# packages/web/.env.local (or .env.local.example)
-NEXT_PUBLIC_API_URL=http://localhost:3000
+# packages/web/.env.local
+# API on 3001, admin on 3000:
+NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
 ## 2. Database
@@ -49,24 +50,24 @@ npm run build
 npm run dev
 ```
 
-- **API**: http://localhost:3000 (health: http://localhost:3000/health)
-- **Web (admin console)**: http://localhost:3001 (Next.js dev)
+- **API**: http://localhost:3001 (health: http://localhost:3001/health)
+- **Web (admin console)**: http://localhost:3000 (Next.js dev)
 - **Worker**: runs in same process via `concurrently`
 
 ### Option B: One at a time
 
 ```bash
-# Terminal 1 – API
+# Terminal 1 – API (set PORT=3001 in .env to use 3001)
 npm run dev:api
-# → http://localhost:3000
+# → http://localhost:3001 (if PORT=3001)
 
-# Terminal 2 – Web
+# Terminal 2 – Web (Next.js default 3000)
 npm run dev:web
-# → http://localhost:3001
+# → http://localhost:3000
 
 # Terminal 3 – Worker (after build)
 npm run build:shared && npm run dev -w @ai-governance/worker
-# → health on port 3001 (WORKER_HEALTH_PORT) if set
+# → health (WORKER_HEALTH_PORT) if set
 ```
 
 ### Optional: Mock ticketing (for demo / gateway downstream)
@@ -96,7 +97,7 @@ npm run start -w @ai-governance/demo-agent
 
 # Second run: use saved key
 export AGENT_API_KEY=agk_...
-export CONTROL_PLANE_URL=http://localhost:3000   # if not default
+export CONTROL_PLANE_URL=http://localhost:3001   # API port
 npm run start -w @ai-governance/demo-agent
 ```
 
@@ -107,7 +108,7 @@ npm run start -w @ai-governance/demo-agent
 npm run test
 
 # E2E (Playwright) – needs API and web running
-cd e2e && npm install && BASE_URL=http://localhost:3001 API_URL=http://localhost:3000 npm test
+cd e2e && npm install && BASE_URL=http://localhost:3000 API_URL=http://localhost:3001 npm test
 ```
 
 ## 6. Production-style run
@@ -116,17 +117,17 @@ Build then start each service with Node (no watch):
 
 ```bash
 npm run build
-npm run start -w @ai-governance/api      # PORT=3000
-npm run start -w @ai-governance/web      # Next.js on 3000 by default; set PORT=3001 if needed
+npm run start -w @ai-governance/api      # set PORT=3001 in .env for API
+npm run start -w @ai-governance/web      # Next.js default 3000 (admin)
 npm run start -w @ai-governance/worker
 ```
 
 ## Ports
 
-| Service        | Default port | Env / note              |
+| Service        | Typical port | Env / note              |
 |----------------|-------------|--------------------------|
-| API            | 3000        | `PORT`                   |
-| Web (Next.js)  | 3001        | Next.js dev default     |
+| Admin (Next.js)| 3000        | Next.js dev default     |
+| API            | 3001        | `PORT` in .env          |
 | Worker health  | 3001        | `WORKER_HEALTH_PORT`     |
 | Mock ticketing | 3002        | `MOCK_TICKETING_PORT`   |
 

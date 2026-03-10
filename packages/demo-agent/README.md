@@ -22,7 +22,7 @@ Demo agent that registers with the control plane and performs governed ticket-re
 2. Set the gateway URL if not default:
 
    ```bash
-   export CONTROL_PLANE_URL=http://localhost:3000
+   export CONTROL_PLANE_URL=http://localhost:3001
    export AGENT_OWNER_ID=demo-owner
    ```
 

@@ -1,24 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/auth/authorize/route": "app/api/auth/authorize/route.js",
-  "/auth/callback/route": "app/auth/callback/route.js",
-  "/login/page": "app/login/page.js",
-  "/auth/logout/route": "app/auth/logout/route.js",
   "/page": "app/page.js",
-  "/(console)/agents/[agentId]/page": "app/(console)/agents/[agentId]/page.js",
-  "/(console)/agents/new/page": "app/(console)/agents/new/page.js",
-  "/(console)/dashboard/page": "app/(console)/dashboard/page.js",
-  "/(console)/approvals/[approvalId]/page": "app/(console)/approvals/[approvalId]/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/(console)/agents/page": "app/(console)/agents/page.js",
-  "/(console)/policies/page": "app/(console)/policies/page.js",
-  "/(console)/policies/new/page": "app/(console)/policies/new/page.js",
   "/(console)/settings/page": "app/(console)/settings/page.js",
-  "/(console)/policies/[policyId]/page": "app/(console)/policies/[policyId]/page.js",
-  "/(console)/validation/checks/[checkId]/page": "app/(console)/validation/checks/[checkId]/page.js",
-  "/(console)/validation/checks/new/page": "app/(console)/validation/checks/new/page.js",
-  "/(console)/traces/page": "app/(console)/traces/page.js",
-  "/(console)/validation/checks/page": "app/(console)/validation/checks/page.js",
-  "/(console)/validation/page": "app/(console)/validation/page.js",
-  "/(console)/traces/[traceId]/page": "app/(console)/traces/[traceId]/page.js",
-  "/(console)/approvals/page": "app/(console)/approvals/page.js"
+  "/(console)/dashboard/page": "app/(console)/dashboard/page.js"
 }

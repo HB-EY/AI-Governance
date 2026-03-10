@@ -4,8 +4,8 @@ Playwright end-to-end tests for admin workflow, agent integration, and approval 
 
 ## Prerequisites
 
-- Control plane API running (e.g. `npm run dev:api` → http://localhost:3000)
-- Admin console running (e.g. `npm run dev:web` → http://localhost:3001)
+- Control plane API running (e.g. `PORT=3001 npm run dev:api` → http://localhost:3001)
+- Admin console running (e.g. `npm run dev:web` → http://localhost:3000)
 - Optional: mock ticketing on port 3002 for full gateway→downstream flow
 
 ## Run
@@ -13,7 +13,7 @@ Playwright end-to-end tests for admin workflow, agent integration, and approval 
 ```bash
 cd e2e
 npm install
-BASE_URL=http://localhost:3001 API_URL=http://localhost:3000 npm test
+BASE_URL=http://localhost:3000 API_URL=http://localhost:3001 npm test
 ```
 
 ## Tests
