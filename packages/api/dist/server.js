@@ -1,8 +1,15 @@
 /**
  * Fastify API service entry point.
  * Configures server, plugins, routes, and graceful shutdown.
+ * Loads .env from repo root when run from packages/api (so DATABASE_URL etc. are found).
  */
-import 'dotenv/config';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Monorepo root .env (from packages/api/dist, ../../../ is repo root)
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+dotenv.config(); // packages/api/.env or cwd overrides
 import './telemetry.js';
 import Fastify from 'fastify';
 import helmet from '@fastify/helmet';
@@ -11,6 +18,7 @@ import rateLimit from '@fastify/rate-limit';
 import compress from '@fastify/compress';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import fp from 'fastify-plugin';
 import { requestIdPlugin } from './plugins/request-id.js';
 import { telemetryPlugin } from './plugins/telemetry.js';
 import { errorHandler } from './plugins/error-handler.js';
@@ -89,7 +97,7 @@ async function build() {
     });
     await app.register(requestIdPlugin);
     await app.register(telemetryPlugin);
-    await app.register(authPlugin, {
+    await app.register(fp(authPlugin), {
         agentJwtSecret: process.env.AGENT_JWT_SECRET ?? process.env.JWT_SECRET ?? '',
     });
     app.setErrorHandler(errorHandler);

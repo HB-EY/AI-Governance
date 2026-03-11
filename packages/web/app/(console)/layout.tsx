@@ -13,9 +13,9 @@ export default function ConsoleLayout({
 }) {
   return (
     <ToastProvider>
-      <div className="flex h-screen bg-slate-50">
+      <div className="flex h-screen bg-slate-100">
         <Sidebar />
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-1 flex-col overflow-hidden bg-white">
           <Header />
           <main className="flex-1 overflow-y-auto p-6">{children}</main>
         </div>

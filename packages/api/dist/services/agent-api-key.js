@@ -3,8 +3,10 @@
  * Key is returned only once at registration (REQ-AREG).
  */
 import * as jose from 'jose';
-import * as bcrypt from 'bcryptjs';
+import bcryptImport from 'bcryptjs';
 import { AGENT_API_KEY_PREFIX } from '@ai-governance/shared';
+const mod = bcryptImport;
+const bcrypt = typeof mod.hash === 'function' ? mod : mod.default;
 const SALT_ROUNDS = 10;
 /** Generate API key JWT with agentId and iat; prefix agk_ */
 export async function generateAgentApiKey(agentId, secret) {

@@ -115,10 +115,11 @@ export async function createPolicy(
   const run = async (c: PoolClient) => {
     const policyId = crypto.randomUUID();
     const versionId = crypto.randomUUID();
+    // Insert policy first with current_version_id NULL (policy_versions row does not exist yet).
     await c.query(
       `INSERT INTO policies (id, name, description, current_version_id, created_by)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [policyId, data.name, data.description, versionId, createdBy ?? null]
+       VALUES ($1, $2, $3, NULL, $4)`,
+      [policyId, data.name, data.description, createdBy ?? null]
     );
     await c.query(
       `INSERT INTO policy_versions (id, policy_id, version_number, status, rules, effect, priority, requires_validation, validation_types, requires_approval, approver_roles, created_by)
@@ -135,6 +136,10 @@ export async function createPolicy(
         data.approver_roles ?? [],
         createdBy ?? null,
       ]
+    );
+    await c.query(
+      `UPDATE policies SET current_version_id = $1 WHERE id = $2`,
+      [versionId, policyId]
     );
     const out = await getPolicyById(policyId, c);
     if (!out) throw new Error('Policy not found after create');
@@ -225,8 +230,9 @@ export async function findPolicyByName(name: string, client?: PoolClient): Promi
 /** List active policy versions for evaluation (by priority desc). */
 export async function listActivePolicyVersions(client?: PoolClient): Promise<PolicyVersion[]> {
   const db = client ?? getPool();
+  const pvCols = VERSION_COLS.split(', ').map((c) => `pv.${c.trim()}`).join(', ');
   const res = await db.query(
-    `SELECT pv.${VERSION_COLS} FROM policy_versions pv
+    `SELECT ${pvCols} FROM policy_versions pv
      INNER JOIN policies p ON p.current_version_id = pv.id
      WHERE pv.status = 'active'
      ORDER BY pv.priority DESC`

@@ -46,13 +46,18 @@ npm run build
 
 ### Option A: All together (API + Web + Worker)
 
+**If you see "address already in use" or Next.js on 3004**, free the ports then start:
+
 ```bash
+npm run kill-ports
 npm run dev
 ```
 
+Or run `npm run dev` once ports 3000 and 3001 are free. The dev script uses **API on 3001** and **web on 3000** by default.
+
 - **API**: http://localhost:3001 (health: http://localhost:3001/health)
 - **Web (admin console)**: http://localhost:3000 (Next.js dev)
-- **Worker**: runs in same process via `concurrently`
+- **Worker**: health on http://localhost:3099 (WORKER_HEALTH_PORT)
 
 ### Option B: One at a time
 
@@ -128,7 +133,7 @@ npm run start -w @ai-governance/worker
 |----------------|-------------|--------------------------|
 | Admin (Next.js)| 3000        | Next.js dev default     |
 | API            | 3001        | `PORT` in .env          |
-| Worker health  | 3001        | `WORKER_HEALTH_PORT`     |
+| Worker health  | 3099        | `WORKER_HEALTH_PORT`     |
 | Mock ticketing | 3002        | `MOCK_TICKETING_PORT`   |
 
 ## More docs

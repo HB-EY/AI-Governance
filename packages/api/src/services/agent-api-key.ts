@@ -4,8 +4,13 @@
  */
 
 import * as jose from 'jose';
-import * as bcrypt from 'bcryptjs';
+import bcryptImport from 'bcryptjs';
 import { AGENT_API_KEY_PREFIX } from '@ai-governance/shared';
+
+// ESM interop: CJS bcryptjs may expose hash/compare on .default
+type BcryptLike = { hash: (s: string, r: number) => Promise<string>; compare: (s: string, h: string) => Promise<boolean> };
+const mod = bcryptImport as unknown as BcryptLike | { default: BcryptLike };
+const bcrypt: BcryptLike = typeof (mod as BcryptLike).hash === 'function' ? (mod as BcryptLike) : (mod as { default: BcryptLike }).default;
 
 const SALT_ROUNDS = 10;
 

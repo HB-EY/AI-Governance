@@ -15,6 +15,8 @@ const validateCreate = createValidator(createPolicySchema);
 const validateUpdate = createValidator(updatePolicySchema);
 const ACTIVE_POLICIES_TTL = 300;
 export async function policyRoutes(app) {
+    /** When user auth is not configured, allow unauthenticated access for local dev (same as dashboard). */
+    const userAuth = () => (process.env.USER_JWT_SECRET ?? process.env.JWT_SECRET) ? [app.requireUserAuth()] : [];
     app.post('/evaluate', async (request, reply) => {
         const body = request.body ?? {};
         const start = Date.now();
@@ -51,7 +53,7 @@ export async function policyRoutes(app) {
         });
     });
     app.post('/', {
-        preHandler: [app.requireUserAuth()],
+        preHandler: userAuth(),
     }, async (request, reply) => {
         const result = validateCreate(request.body);
         if (!result.success) {
@@ -159,7 +161,7 @@ export async function policyRoutes(app) {
         });
     });
     app.patch('/:policy_id', {
-        preHandler: [app.requireUserAuth()],
+        preHandler: userAuth(),
     }, async (request, reply) => {
         const { policy_id } = request.params;
         const result = validateUpdate(request.body ?? {});
@@ -220,7 +222,7 @@ export async function policyRoutes(app) {
         });
     });
     app.post('/:policy_id/disable', {
-        preHandler: [app.requireUserAuth()],
+        preHandler: userAuth(),
     }, async (request, reply) => {
         const { policy_id } = request.params;
         const body = request.body ?? {};
@@ -261,7 +263,7 @@ export async function policyRoutes(app) {
         });
     });
     app.post('/:policy_id/enable', {
-        preHandler: [app.requireUserAuth()],
+        preHandler: userAuth(),
     }, async (request, reply) => {
         const { policy_id } = request.params;
         const policy = await getPolicyById(policy_id);

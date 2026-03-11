@@ -9,6 +9,11 @@ const config: Config = {
     extend: {
       colors: {
         primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
+        ey: {
+          black: '#000000',
+          charcoal: '#1A2227',
+          yellow: '#FEE700',
+        },
       },
       spacing: { '18': '4.5rem', '88': '22rem' },
     },

@@ -27,6 +27,10 @@ const validateUpdate = createValidator<UpdatePolicyRequest>(updatePolicySchema);
 const ACTIVE_POLICIES_TTL = 300;
 
 export async function policyRoutes(app: FastifyInstance): Promise<void> {
+  /** When user auth is not configured, allow unauthenticated access for local dev (same as dashboard). */
+  const userAuth = (): ReturnType<FastifyInstance['requireUserAuth']>[] =>
+    (process.env.USER_JWT_SECRET ?? process.env.JWT_SECRET) ? [app.requireUserAuth()] : [];
+
   app.post<{
     Body: { agent_id?: string; agent_capabilities?: string[]; action_type: string; target_resource: string; context?: Record<string, unknown> };
   }>('/evaluate', async (request, reply) => {
@@ -66,7 +70,7 @@ export async function policyRoutes(app: FastifyInstance): Promise<void> {
   });
 
   app.post<{ Body: CreatePolicyRequest }>('/', {
-    preHandler: [app.requireUserAuth()],
+    preHandler: userAuth(),
   }, async (request, reply) => {
     const result = validateCreate(request.body as CreatePolicyRequest);
     if (!result.success) {
@@ -182,7 +186,7 @@ export async function policyRoutes(app: FastifyInstance): Promise<void> {
   });
 
   app.patch<{ Params: { policy_id: string }; Body: UpdatePolicyRequest }>('/:policy_id', {
-    preHandler: [app.requireUserAuth()],
+    preHandler: userAuth(),
   }, async (request, reply) => {
     const { policy_id } = request.params as { policy_id: string };
     const result = validateUpdate((request.body as UpdatePolicyRequest) ?? {});
@@ -248,7 +252,7 @@ export async function policyRoutes(app: FastifyInstance): Promise<void> {
   });
 
   app.post<{ Params: { policy_id: string }; Body: { reason?: string } }>('/:policy_id/disable', {
-    preHandler: [app.requireUserAuth()],
+    preHandler: userAuth(),
   }, async (request, reply) => {
     const { policy_id } = request.params as { policy_id: string };
     const body = (request.body as { reason?: string }) ?? {};
@@ -292,7 +296,7 @@ export async function policyRoutes(app: FastifyInstance): Promise<void> {
   });
 
   app.post<{ Params: { policy_id: string }; Body: { note?: string } }>('/:policy_id/enable', {
-    preHandler: [app.requireUserAuth()],
+    preHandler: userAuth(),
   }, async (request, reply) => {
     const { policy_id } = request.params as { policy_id: string };
     const policy = await getPolicyById(policy_id);

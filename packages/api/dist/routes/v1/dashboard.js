@@ -1,13 +1,18 @@
 /**
  * Dashboard metrics API (WO-43): aggregate counts, 30s cache.
+ * When user auth is not configured (no USER_JWT_SECRET), allows unauthenticated access for local dev.
  */
 import { getPool } from '../../db/pool.js';
 import { DASHBOARD_METRICS_KEY } from '../../cache/keys.js';
 import { cacheGet, cacheSet } from '../../cache/store.js';
 const CACHE_TTL = 30;
+function hasUserAuth() {
+    return !!(process.env.USER_JWT_SECRET ?? process.env.JWT_SECRET);
+}
 export async function dashboardRoutes(app) {
+    const preHandler = hasUserAuth() ? [app.requireUserAuth()] : [];
     app.get('/metrics', {
-        preHandler: [app.requireUserAuth()],
+        preHandler,
     }, async (request, reply) => {
         const cached = await cacheGet(DASHBOARD_METRICS_KEY);
         if (cached) {

@@ -1,17 +1,18 @@
 /**
  * Schema validation check (WO-30): validate payload against JSON schema.
+ * Use createRequire so ajv works when the package is ESM or CJS.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Ajv = require('ajv').default as new (opts?: { allErrors?: boolean }) => {
-  compile: (schema: Record<string, unknown>) => ((data: unknown) => boolean) & { errors?: Array<{ instancePath?: string; params?: { missingProperty?: string }; message?: string }> };
-};
+import { createRequire } from 'module';
 
-let ajv: InstanceType<typeof Ajv> | null = null;
+const require = createRequire(import.meta.url);
+const Ajv = (require('ajv') as { default?: new (opts?: { allErrors?: boolean }) => unknown }).default ?? require('ajv');
+
+let ajvInstance: InstanceType<typeof Ajv> | null = null;
 
 function getAjv(): InstanceType<typeof Ajv> {
-  if (!ajv) ajv = new Ajv({ allErrors: true });
-  return ajv;
+  if (!ajvInstance) ajvInstance = new Ajv({ allErrors: true });
+  return ajvInstance;
 }
 
 export interface SchemaCheckResult {

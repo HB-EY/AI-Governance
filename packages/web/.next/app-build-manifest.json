@@ -1,14 +1,14 @@
 {
   "pages": {
-    "/not-found": [
+    "/(console)/policies/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/not-found.js"
+      "static/chunks/app/(console)/policies/page.js"
     ],
-    "/_not-found/page": [
+    "/(console)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/(console)/layout.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -21,25 +21,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/error.js"
     ],
-    "/(console)/dashboard/page": [
+    "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(console)/dashboard/page.js"
-    ],
-    "/(console)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(console)/layout.js"
-    ],
-    "/(console)/agents/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(console)/agents/page.js"
-    ],
-    "/(console)/policies/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(console)/policies/page.js"
+      "static/chunks/app/not-found.js"
     ],
     "/(console)/traces/page": [
       "static/chunks/webpack.js",
@@ -51,25 +36,30 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(console)/approvals/page.js"
     ],
-    "/(console)/validation/page": [
+    "/(console)/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(console)/validation/page.js"
+      "static/chunks/app/(console)/dashboard/page.js"
     ],
-    "/(console)/validation/checks/page": [
+    "/(console)/agents/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(console)/validation/checks/page.js"
+      "static/chunks/app/(console)/agents/page.js"
     ],
-    "/(console)/settings/page": [
+    "/(console)/agents/new/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(console)/settings/page.js"
+      "static/chunks/app/(console)/agents/new/page.js"
     ],
-    "/page": [
+    "/(console)/traces/[traceId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/app/(console)/traces/[traceId]/page.js"
+    ],
+    "/(console)/policies/new/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(console)/policies/new/page.js"
     ]
   }
 }

@@ -1,7 +1,8 @@
 {
-  "/page": "app/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
   "/(console)/agents/page": "app/(console)/agents/page.js",
-  "/(console)/settings/page": "app/(console)/settings/page.js",
-  "/(console)/dashboard/page": "app/(console)/dashboard/page.js"
+  "/(console)/policies/page": "app/(console)/policies/page.js",
+  "/(console)/policies/new/page": "app/(console)/policies/new/page.js",
+  "/(console)/dashboard/page": "app/(console)/dashboard/page.js",
+  "/(console)/traces/page": "app/(console)/traces/page.js",
+  "/(console)/traces/[traceId]/page": "app/(console)/traces/[traceId]/page.js"
 }

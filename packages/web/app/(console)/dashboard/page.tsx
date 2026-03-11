@@ -84,7 +84,7 @@ export default function DashboardPage() {
           <p className="text-sm text-slate-500">Pending approvals</p>
           <p className="mt-1 text-2xl font-semibold">{pending}</p>
           {pending > 0 && (
-            <Link href="/approvals" className="mt-2 block text-sm text-primary-600 hover:underline">View queue</Link>
+            <Link href="/approvals" className="mt-2 block text-sm font-medium text-ey-charcoal hover:text-ey-yellow transition-colors">View queue</Link>
           )}
         </div>
       </div>
@@ -108,7 +108,7 @@ export default function DashboardPage() {
             ) : (
               violations.map((v) => (
                 <li key={v.id} className="text-sm">
-                  <Link href={`/traces/${v.id}`} className="text-primary-600 hover:underline">{v.agent_name ?? v.agent_id}</Link>
+                  <Link href={`/traces/${v.id}`} className="text-ey-charcoal font-medium hover:text-ey-yellow transition-colors">{v.agent_name ?? v.agent_id}</Link>
                   {' — '}{v.action_type}
                 </li>
               ))
@@ -136,7 +136,7 @@ export default function DashboardPage() {
                 {recent.map((r) => (
                   <tr key={r.id} className="border-b border-slate-100">
                     <td className="py-2 pr-4">
-                      <Link href={`/traces/${r.id}`} className="text-primary-600 hover:underline">
+                      <Link href={`/traces/${r.id}`} className="text-ey-charcoal font-medium hover:text-ey-yellow transition-colors">
                         {r.agent_name ?? r.agent_id}
                       </Link>
                     </td>

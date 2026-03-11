@@ -12,7 +12,7 @@ import { runEvidenceExport } from './evidence-export.js';
 import { registerHandler } from './handlers/index.js';
 const POLL_INTERVAL_MS = 2000;
 const CONCURRENCY = parseInt(process.env.WORKER_CONCURRENCY ?? '2', 10);
-const HEALTH_PORT = parseInt(process.env.WORKER_HEALTH_PORT ?? '3001', 10);
+const HEALTH_PORT = parseInt(process.env.WORKER_HEALTH_PORT ?? '3099', 10);
 const QUEUE_NAME = process.env.WORKER_QUEUE ?? 'default';
 let running = true;
 async function processOne() {
