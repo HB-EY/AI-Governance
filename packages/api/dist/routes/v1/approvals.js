@@ -9,6 +9,8 @@ import { writeAuditLog } from '../../services/audit.js';
 import { notifyApprovalCreated, notifyApprovalDecided } from '../../services/approval-notify.js';
 import { evidenceKey, downloadEvidence, uploadEvidence } from '../../storage/index.js';
 export async function approvalRoutes(app) {
+    /** When user auth is not configured, allow unauthenticated access for local dev (same as dashboard/policies). */
+    const userAuth = () => (process.env.USER_JWT_SECRET ?? process.env.JWT_SECRET) ? [app.requireUserAuth()] : [];
     app.post('/', async (request, reply) => {
         const body = request.body ?? {};
         if (!body.trace_id || !body.agent_id || !body.action_type || !body.action_summary || !Array.isArray(body.approver_roles)) {
@@ -118,7 +120,7 @@ export async function approvalRoutes(app) {
         });
     });
     app.post('/:approval_id/approve', {
-        preHandler: [app.requireUserAuth()],
+        preHandler: userAuth(),
     }, async (request, reply) => {
         const { approval_id } = request.params;
         const body = request.body ?? {};
@@ -171,7 +173,7 @@ export async function approvalRoutes(app) {
         });
     });
     app.post('/:approval_id/deny', {
-        preHandler: [app.requireUserAuth()],
+        preHandler: userAuth(),
     }, async (request, reply) => {
         const { approval_id } = request.params;
         const body = request.body ?? {};

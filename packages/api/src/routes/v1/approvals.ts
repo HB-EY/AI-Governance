@@ -17,6 +17,10 @@ import { notifyApprovalCreated, notifyApprovalDecided } from '../../services/app
 import { evidenceKey, downloadEvidence, uploadEvidence } from '../../storage/index.js';
 
 export async function approvalRoutes(app: FastifyInstance): Promise<void> {
+  /** When user auth is not configured, allow unauthenticated access for local dev (same as dashboard/policies). */
+  const userAuth = (): ReturnType<FastifyInstance['requireUserAuth']>[] =>
+    (process.env.USER_JWT_SECRET ?? process.env.JWT_SECRET) ? [app.requireUserAuth()] : [];
+
   app.post<{
     Body: {
       trace_id: string;
@@ -148,7 +152,7 @@ export async function approvalRoutes(app: FastifyInstance): Promise<void> {
   });
 
   app.post<{ Params: { approval_id: string }; Body: { reason?: string } }>('/:approval_id/approve', {
-    preHandler: [app.requireUserAuth()],
+    preHandler: userAuth(),
   }, async (request, reply) => {
     const { approval_id } = request.params as { approval_id: string };
     const body = (request.body as { reason?: string }) ?? {};
@@ -200,7 +204,7 @@ export async function approvalRoutes(app: FastifyInstance): Promise<void> {
   });
 
   app.post<{ Params: { approval_id: string }; Body: { reason: string } }>('/:approval_id/deny', {
-    preHandler: [app.requireUserAuth()],
+    preHandler: userAuth(),
   }, async (request, reply) => {
     const { approval_id } = request.params as { approval_id: string };
     const body = (request.body as { reason?: string }) ?? {};
