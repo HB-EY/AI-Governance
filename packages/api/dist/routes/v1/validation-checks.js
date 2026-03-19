@@ -12,8 +12,10 @@ import { isUniqueViolation } from '../../db/errors.js';
 const validateCreate = createValidator(createValidationCheckSchema);
 const validateUpdate = createValidator(updateValidationCheckSchema);
 export async function validationCheckRoutes(app) {
+    /** When user auth is not configured, allow unauthenticated access for local dev (same as dashboard/policies). */
+    const userAuth = () => (process.env.USER_JWT_SECRET ?? process.env.JWT_SECRET) ? [app.requireUserAuth()] : [];
     app.post('/', {
-        preHandler: [app.requireUserAuth()],
+        preHandler: userAuth(),
     }, async (request, reply) => {
         const result = validateCreate(request.body);
         if (!result.success) {
@@ -92,7 +94,7 @@ export async function validationCheckRoutes(app) {
         });
     });
     app.patch('/:check_id', {
-        preHandler: [app.requireUserAuth()],
+        preHandler: userAuth(),
     }, async (request, reply) => {
         const { check_id } = request.params;
         const result = validateUpdate(request.body ?? {});

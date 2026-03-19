@@ -4,6 +4,7 @@
 import type { ValidationCheckRow } from '../db/validation-checks.js';
 export interface RunCheckInput {
     action?: Record<string, unknown>;
+    context?: Record<string, unknown>;
     output?: unknown;
     text?: string;
 }

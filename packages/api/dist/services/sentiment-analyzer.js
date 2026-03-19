@@ -6,7 +6,7 @@ export async function analyzeSentiment(text, config = {}) {
     const threshold = config.threshold ?? DEFAULT_THRESHOLD;
     const apiUrl = config.api_url ?? process.env.SENTIMENT_API_URL;
     if (!apiUrl) {
-        return { pass: true, message: 'Sentiment API not configured' };
+        return { pass: false, message: 'Sentiment API not configured. Set api_url in the check configuration or SENTIMENT_API_URL in the environment.' };
     }
     const apiKey = config.api_key ?? process.env.SENTIMENT_API_KEY;
     try {

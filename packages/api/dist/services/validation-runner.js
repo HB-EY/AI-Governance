@@ -15,7 +15,15 @@ function withTimeout(p, ms) {
 async function runOneCheck(check, input) {
     const start = Date.now();
     const timeoutMs = (check.timeout_seconds ?? 5) * 1000 || DEFAULT_TIMEOUT_MS;
-    const text = input.text ?? (typeof input.output === 'string' ? input.output : JSON.stringify(input.output ?? input.action ?? ''));
+    // Include action, context, and output in scanned text so PII in any of them is detected
+    const text = input.text ??
+        (typeof input.output === 'string'
+            ? input.output
+            : JSON.stringify({
+                action: input.action,
+                context: input.context,
+                output: input.output,
+            }));
     const payload = input.output ?? input.action;
     try {
         const result = await withTimeout((async () => {

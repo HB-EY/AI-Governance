@@ -30,8 +30,12 @@ const validateCreate = createValidator<CreateValidationCheckRequest>(createValid
 const validateUpdate = createValidator<UpdateValidationCheckRequest>(updateValidationCheckSchema);
 
 export async function validationCheckRoutes(app: FastifyInstance): Promise<void> {
+  /** When user auth is not configured, allow unauthenticated access for local dev (same as dashboard/policies). */
+  const userAuth = (): ReturnType<FastifyInstance['requireUserAuth']>[] =>
+    (process.env.USER_JWT_SECRET ?? process.env.JWT_SECRET) ? [app.requireUserAuth()] : [];
+
   app.post<{ Body: CreateValidationCheckRequest }>('/', {
-    preHandler: [app.requireUserAuth()],
+    preHandler: userAuth(),
   }, async (request, reply) => {
     const result = validateCreate(request.body as CreateValidationCheckRequest);
     if (!result.success) {
@@ -112,7 +116,7 @@ export async function validationCheckRoutes(app: FastifyInstance): Promise<void>
   });
 
   app.patch<{ Params: { check_id: string }; Body: UpdateValidationCheckRequest }>('/:check_id', {
-    preHandler: [app.requireUserAuth()],
+    preHandler: userAuth(),
   }, async (request, reply) => {
     const { check_id } = request.params as { check_id: string };
     const result = validateUpdate((request.body as UpdateValidationCheckRequest) ?? {});

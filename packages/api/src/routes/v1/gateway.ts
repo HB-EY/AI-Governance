@@ -215,6 +215,7 @@ export async function gatewayRoutes(app: FastifyInstance): Promise<void> {
       );
       const runResult = await runValidation(checks, {
         action: { action_type: body.action_type, target_resource: body.target_resource, ...body.parameters },
+        context: body.context,
         output: body.output,
         text: typeof body.output === 'string' ? body.output : undefined,
       });
@@ -238,6 +239,7 @@ export async function gatewayRoutes(app: FastifyInstance): Promise<void> {
           data: { trace_id: traceId },
         });
       }
+      await updateTraceStatus(traceId, 'success');
       return reply.send({
         request_id: requestId,
         timestamp: new Date().toISOString(),

@@ -1,10 +1,8 @@
 {
-  "/page": "app/page.js",
-  "/(console)/traces/[traceId]/page": "app/(console)/traces/[traceId]/page.js",
-  "/(console)/approvals/page": "app/(console)/approvals/page.js",
-  "/(console)/traces/page": "app/(console)/traces/page.js",
   "/(console)/dashboard/page": "app/(console)/dashboard/page.js",
-  "/(console)/approvals/[approvalId]/page": "app/(console)/approvals/[approvalId]/page.js",
   "/(console)/agents/page": "app/(console)/agents/page.js",
-  "/(console)/agents/new/page": "app/(console)/agents/new/page.js"
+  "/(console)/approvals/[approvalId]/page": "app/(console)/approvals/[approvalId]/page.js",
+  "/(console)/approvals/page": "app/(console)/approvals/page.js",
+  "/(console)/validation/checks/page": "app/(console)/validation/checks/page.js",
+  "/(console)/traces/[traceId]/page": "app/(console)/traces/[traceId]/page.js"
 }
